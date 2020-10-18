@@ -1,7 +1,6 @@
 package com.example.posesionista
 
 import androidx.lifecycle.ViewModel
-import kotlin.random.Random
 
 class TablaCosasViewModel : ViewModel() {
     val inventario = mutableListOf<Thingy>()

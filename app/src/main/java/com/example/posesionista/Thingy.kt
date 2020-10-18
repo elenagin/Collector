@@ -11,7 +11,7 @@ data class Thingy(var nombre: String = "",
                   var valorEnPesos: Int = 0,
                   var numeroDeSerie: String = "",
                   var fechaDeCreacion: Date = Date(),
-var idThingy : String = UUID.randomUUID().toString().substring(0,8)) :Parcelable{}
+var idThingy : String = UUID.randomUUID().toString().substring(0,8)) :Parcelable
 
 
 
