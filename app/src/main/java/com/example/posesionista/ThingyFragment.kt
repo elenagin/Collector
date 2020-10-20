@@ -21,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 private const val ARGUMENTO_COSA = "cosa_recibida"
@@ -56,7 +58,13 @@ class ThingyFragment : Fragment() {
         nombreCampo.setText(thingy.nombre)
         precioCampo.setText(thingy.valorEnPesos.toString())
         serieCampo.setText(thingy.numeroDeSerie)
-        fechaCampo.text = thingy.date.toString()
+        //fechaCampo.text = thingy.date.toString()
+
+
+        val pattern = "dd-MM-yyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val date: String = simpleDateFormat.format(thingy.date)
+        fechaCampo.setText(date)
         vistaDeFoto = vista.findViewById(R.id.cameraView)
         botonCamara = vista.findViewById(R.id.cameraButton)
         archivoFoto = File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${thingy.idThingy}.jpg")

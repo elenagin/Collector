@@ -12,7 +12,6 @@
     android:focusable="true"
 
     android:foreground="?android:selectableItemBackground"
-    card_view:cardBackgroundColor="@color/colorAccent"
     card_view:cardCornerRadius="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +36,9 @@
             android:layout_height="23dp"
             android:layout_marginTop="10dp"
             android:text="@string/thingy_name"
+            android:textColor="@color/white"
             android:textSize="18sp"
+            android:textStyle="bold"
             card_view:layout_constraintStart_toEndOf="@+id/thumbnail"
             card_view:layout_constraintStart_toStartOf="@+id/label_series"
             card_view:layout_constraintTop_toTopOf="parent" />
@@ -49,15 +50,18 @@
             android:layout_marginEnd="24dp"
             android:text="@string/price"
             android:textSize="30sp"
+            android:textColor="@color/white"
+            card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toTopOf="@+id/label_name" />
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/label_series"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/series_number"
+            android:textColor="@color/colorPrimaryDark"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toStartOf="@+id/label_price"
             card_view:layout_constraintHorizontal_bias="0.173"
