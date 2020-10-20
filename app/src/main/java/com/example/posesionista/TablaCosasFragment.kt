@@ -185,8 +185,13 @@ class TablaCosasFragment : Fragment() {
                                 Log.d(TAG, "Deleted")
                             }
                         }
-                        .setNegativeButton("Cancel") { dialog, id ->
-                            dialog.cancel()
+                        .setNegativeButton(
+                            "Cancel"
+                        ) { dialog, id ->
+                            dialog.run {
+                                cosaRecyclerView.adapter?.notifyItemChanged(viewHolder.adapterPosition)
+                                Log.d(TAG, "Cancelled")
+                            }
                         }
 
                     val alert = dialogBuilder.create()
