@@ -18,6 +18,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.cosa_fragment.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,6 +34,7 @@ class ThingyFragment : Fragment() {
     private lateinit var serieCampo: EditText
     private lateinit var fechaCampo: TextView
     private lateinit var botonCamara: ImageButton
+    private lateinit var editDateButton: Button
     private lateinit var vistaDeFoto: ImageView
     private lateinit var archivoFoto: File
     private lateinit var thingy: Thingy
@@ -52,17 +54,20 @@ class ThingyFragment : Fragment() {
         precioCampo = vista.findViewById(R.id.campoPrecio)
         serieCampo = vista.findViewById(R.id.campoSerie)
         fechaCampo = vista.findViewById(R.id.campoFecha)
+        editDateButton = vista.findViewById(R.id.editButton)
 
         nombreCampo.setText(thingy.nombre)
         precioCampo.setText(thingy.valorEnPesos.toString())
         serieCampo.setText(thingy.numeroDeSerie)
-        //fechaCampo.text = thingy.date.toString()
+        fechaCampo.isEnabled = false
 
 
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, 0)
         val pattern = "dd-MM-yyy"
         val simpleDateFormat = SimpleDateFormat(pattern)
         val date: String = simpleDateFormat.format(thingy.date)
-        fechaCampo.setText(date)
+        fechaCampo.setText(calendar.time.toString())
         vistaDeFoto = vista.findViewById(R.id.cameraView)
         botonCamara = vista.findViewById(R.id.cameraButton)
         archivoFoto = File(
@@ -146,6 +151,14 @@ class ThingyFragment : Fragment() {
                 } catch (error: ActivityNotFoundException) {
                     Log.d(TAG, "Device has no camera")
                 }
+            }
+        }
+
+        editDateButton.apply {
+            Log.d(TAG, "IN apply")
+            setOnClickListener {
+                fechaCampo.isEnabled = true
+                Log.d(TAG, "ebablinf")
             }
         }
     }

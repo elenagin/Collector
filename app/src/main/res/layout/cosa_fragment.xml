@@ -84,44 +84,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/campoFecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="@string/today_s_date"
-        android:inputType="date"
-        android:labelFor="@string/today_s_date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/campoSerie"
-        android:autofillHints="" />
-
     <ImageView
         android:id="@+id/cameraView"
-        android:layout_width="337dp"
-        android:layout_height="214dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="307dp"
+        android:layout_height="201dp"
+        android:layout_marginTop="96dp"
         android:contentDescription="@string/its_a_caterpillar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/campoFecha"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        tools:src="@drawable/martin_adams_mrk2vbjezly_unsplash" />
 
     <ImageButton
         android:id="@+id/cameraButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/add_photo"
         android:src="@android:drawable/ic_menu_camera"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/cameraView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/campoFecha"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.413" />
+
+    <EditText
+        android:id="@+id/campoFecha"
+        android:layout_width="116dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="28dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/today_s_date"
+        android:inputType="date"
+        android:labelFor="@string/today_s_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/campoSerie" />
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/editButton"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintStart_toEndOf="@+id/campoFecha"
+        app:layout_constraintTop_toTopOf="@+id/campoFecha" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.cosa_layout.*
+import java.util.*
 
 private const val TAG = "TablaCosasFragment"
 
@@ -159,13 +160,15 @@ class TablaCosasFragment : Fragment() {
     }
 
     private fun configuraItemTouchHelper() {
-        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                TODO("Not yet implemented")
+                val sourcePosition = viewHolder.adapterPosition
+                val targetPosition = target.adapterPosition
+                Collections.swap(tablaCosasViewModel.inventario, sourcePosition, targetPosition)
+                adapter?.notifyItemMoved(sourcePosition, targetPosition)
+                return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -174,23 +177,24 @@ class TablaCosasFragment : Fragment() {
                     dialogBuilder.setMessage("Are you sure you want to delete this Thingy?")
                         .setCancelable(false)
                         .setPositiveButton(
-                            "Proceed",
-                            DialogInterface.OnClickListener { dialog, id ->
-                                dialog.run {
-                                    tablaCosasViewModel.remove(viewHolder.adapterPosition)
-                                    cosaRecyclerView.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
-                                    Log.d(TAG, "Deleted")
-                                }
-                            })
-                        .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+                            "Proceed"
+                        ) { dialog, id ->
+                            dialog.run {
+                                tablaCosasViewModel.remove(viewHolder.adapterPosition)
+                                cosaRecyclerView.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
+                                Log.d(TAG, "Deleted")
+                            }
+                        }
+                        .setNegativeButton("Cancel") { dialog, id ->
                             dialog.cancel()
-                        })
+                        }
 
                     val alert = dialogBuilder.create()
                     alert.setTitle("Delete Thingy?")
                     alert.show()
                 }
             }
+
         }
 
         val gestureDetector = ItemTouchHelper(itemTouchCallback)
