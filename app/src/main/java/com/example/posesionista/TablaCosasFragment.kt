@@ -1,15 +1,21 @@
 package com.example.posesionista
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Color.green
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.cosa_layout.*
 
 private const val TAG = "TablaCosasFragment"
 
@@ -64,17 +70,17 @@ class TablaCosasFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_fragment, menu)
+        //inflater.inflate(R.menu.menu_fragment, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
-            R.id.menuAddBtton -> {
+        return when (item.itemId) {
+            /*R.id.menuAddBtton -> {
                 val thingy= Thingy()
                 tablaCosasViewModel.addThingy(thingy)
                 callbacks?.onCosaSeleccionada(thingy)
                 return true
-            }
+            }*/
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -85,19 +91,47 @@ class TablaCosasFragment : Fragment() {
         cosaRecyclerView.adapter = adapter
     }
 
-    private inner class CosaHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener{
-        val nombreTextView: TextView = itemView.findViewById(R.id.label_nombre)
-        val precioTextView: TextView = itemView.findViewById(R.id.label_precio)
+    private inner class CosaHolder(view: View) : RecyclerView.ViewHolder(view),
+        View.OnClickListener {
+        val nombreTextView: TextView = itemView.findViewById(R.id.label_name)
+        val precioTextView: TextView = itemView.findViewById(R.id.label_price)
+        val serieTextView: TextView = itemView.findViewById(R.id.label_series)
+        val cardView: CardView = itemView.findViewById(R.id.card)
+
         private lateinit var thingy: Thingy
 
         init {
             view.setOnClickListener(this)
         }
 
-        fun bind (thingy: Thingy){
+        fun bind(thingy: Thingy) {
             this.thingy = thingy
             nombreTextView.text = thingy.nombre
-            precioTextView.text = thingy.valorEnPesos.toString()
+            precioTextView.text = "$ " + thingy.valorEnPesos.toString()
+            serieTextView.text = thingy.numeroDeSerie
+            if (thingy.valorEnPesos in 0..99) {
+                cardView.setCardBackgroundColor(Color.parseColor("#EDC7BF"))
+            } else if (thingy.valorEnPesos in 100..199) {
+                cardView.setCardBackgroundColor(Color.parseColor("#E9B9AF"))
+            } else if (thingy.valorEnPesos in 200..299) {
+                cardView.setCardBackgroundColor(Color.parseColor("#E5AB9F"))
+            } else if (thingy.valorEnPesos in 300..399) {
+                cardView.setCardBackgroundColor(Color.parseColor("#E09C8F"))
+            } else if (thingy.valorEnPesos in 400..499) {
+                cardView.setCardBackgroundColor(Color.parseColor("#DC8E7F"))
+            } else if (thingy.valorEnPesos in 500..599) {
+                cardView.setCardBackgroundColor(Color.parseColor("#D8806F"))
+            } else if (thingy.valorEnPesos in 600..699) {
+                cardView.setCardBackgroundColor(Color.parseColor("#D3725F"))
+            } else if (thingy.valorEnPesos in 700..799) {
+                cardView.setCardBackgroundColor(Color.parseColor("#CF644F"))
+            } else if (thingy.valorEnPesos in 800..899) {
+                cardView.setCardBackgroundColor(Color.parseColor("#CA563F"))
+            } else if (thingy.valorEnPesos in 900..1000) {
+                cardView.setCardBackgroundColor(Color.parseColor("#C04C35"))
+            }
+
+
         }
 
         override fun onClick(view: View?) {

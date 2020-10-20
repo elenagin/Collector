@@ -1,60 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/card"
 
     android:layout_marginHorizontal="15dp"
     android:layout_marginVertical="5dp"
     android:clickable="true"
+    android:focusable="true"
+
     android:foreground="?android:selectableItemBackground"
-
     card_view:cardBackgroundColor="@color/colorAccent"
-    card_view:cardCornerRadius="4dp"
-    android:focusable="true">
+    card_view:cardCornerRadius="4dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="5dp"
-        android:orientation="vertical">
+        android:layout_height="66dp">
+
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/photo_of_thingy"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.407"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
-            android:id="@+id/label_nombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-smallcaps"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"/>
+            android:id="@+id/label_name"
+            android:layout_width="62dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/thingy_name"
+            android:textSize="18sp"
+            card_view:layout_constraintStart_toEndOf="@+id/thumbnail"
+            card_view:layout_constraintStart_toStartOf="@+id/label_series"
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/label_precio"
-            android:layout_width="match_parent"
+            android:id="@+id/label_price"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"/>
+            android:layout_marginEnd="24dp"
+            android:text="@string/price"
+            android:textSize="30sp"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toTopOf="@+id/label_name" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/label_series"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@string/series_number"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@+id/label_price"
+            card_view:layout_constraintHorizontal_bias="0.173"
+            card_view:layout_constraintStart_toEndOf="@+id/thumbnail"
+            card_view:layout_constraintTop_toBottomOf="@+id/label_name"
+            card_view:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>
-
-
-
-    <!--<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/label_nombre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/label_precio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-</LinearLayout>
--->

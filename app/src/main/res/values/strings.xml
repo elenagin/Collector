@@ -10,4 +10,8 @@
     <string name="its_a_caterpillar">Its a caterpillar</string>
     <string name="add_photo">add photo</string>
     <string name="today_s_date">Today\'s date</string>
+    <string name="price">$0</string>
+    <string name="thingy_name">Thingy</string>
+    <string name="series_number">Series number</string>
+    <string name="photo_of_thingy">Photo of thingy</string>
 </resources>

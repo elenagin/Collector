@@ -56,7 +56,7 @@ class ThingyFragment : Fragment() {
         nombreCampo.setText(thingy.nombre)
         precioCampo.setText(thingy.valorEnPesos.toString())
         serieCampo.setText(thingy.numeroDeSerie)
-        fechaCampo.text = thingy.fechaDeCreacion.toString()
+        fechaCampo.text = thingy.date.toString()
         vistaDeFoto = vista.findViewById(R.id.cameraView)
         botonCamara = vista.findViewById(R.id.cameraButton)
         archivoFoto = File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${thingy.idThingy}.jpg")
@@ -89,6 +89,12 @@ class ThingyFragment : Fragment() {
                     Log.d("CosaFragment", "Cambiando numero de serie ${s.toString()}")
                     thingy.numeroDeSerie = s.toString()
                 }
+                if (s.hashCode() == serieCampo.text.hashCode()) {
+                    thingy.numeroDeSerie = s.toString()
+                }
+                archivoFoto = File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${thingy.idThingy}.jpg")
+                vistaDeFoto.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
+                val archivos = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.list()
             }
 
             override fun afterTextChanged(s: Editable?) {
