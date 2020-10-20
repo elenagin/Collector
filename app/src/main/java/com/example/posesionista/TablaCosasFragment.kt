@@ -1,7 +1,9 @@
 package com.example.posesionista
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Color.green
 import android.os.Bundle
@@ -168,8 +170,25 @@ class TablaCosasFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (direction == ItemTouchHelper.LEFT) {
-                    tablaCosasViewModel.remove(viewHolder.adapterPosition)
-                    cosaRecyclerView.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
+                    val dialogBuilder = AlertDialog.Builder(context)
+                    dialogBuilder.setMessage("Are you sure you want to delete this Thingy?")
+                        .setCancelable(false)
+                        .setPositiveButton(
+                            "Proceed",
+                            DialogInterface.OnClickListener { dialog, id ->
+                                dialog.run {
+                                    tablaCosasViewModel.remove(viewHolder.adapterPosition)
+                                    cosaRecyclerView.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
+                                    Log.d(TAG, "Deleted")
+                                }
+                            })
+                        .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+                            dialog.cancel()
+                        })
+
+                    val alert = dialogBuilder.create()
+                    alert.setTitle("Delete Thingy?")
+                    alert.show()
                 }
             }
         }

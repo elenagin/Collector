@@ -10,7 +10,7 @@ import java.util.*
 data class Thingy constructor(
     var nombre: String = "",
     var valorEnPesos: Int = 0,
-    var numeroDeSerie: String = "",
+    var numeroDeSerie: String = UUID.randomUUID().toString().substring(0, 8),
     var date: Date = Date(),
     var idThingy: String = UUID.randomUUID().toString().substring(0, 8)
 ) : Parcelable
