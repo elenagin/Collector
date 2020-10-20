@@ -10,13 +10,11 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -67,7 +65,10 @@ class ThingyFragment : Fragment() {
         fechaCampo.setText(date)
         vistaDeFoto = vista.findViewById(R.id.cameraView)
         botonCamara = vista.findViewById(R.id.cameraButton)
-        archivoFoto = File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${thingy.idThingy}.jpg")
+        archivoFoto = File(
+            context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            "${thingy.idThingy}.jpg"
+        )
         vistaDeFoto.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
         val archivos = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.list()
         Log.d(TAG, "ArchivosExistentes: $archivos")
@@ -83,6 +84,17 @@ class ThingyFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.hashCode() == nombreCampo.text.hashCode()) {
                     thingy.nombre = s.toString()
+                    if (thingy.nombre == "") {
+                        Log.d(TAG, "Name empty")
+                        val toast = Toast.makeText(
+                            context,
+                            "You can't have a Thingy without a name!",
+                            Toast.LENGTH_LONG
+                        )
+                        toast.show()
+                    } else {
+                        Log.d(TAG, "Name: " + thingy.nombre)
+                    }
                 }
                 if (s.hashCode() == precioCampo.text.hashCode()) {
                     if (s != null) {
@@ -100,7 +112,10 @@ class ThingyFragment : Fragment() {
                 if (s.hashCode() == serieCampo.text.hashCode()) {
                     thingy.numeroDeSerie = s.toString()
                 }
-                archivoFoto = File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${thingy.idThingy}.jpg")
+                archivoFoto = File(
+                    context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    "${thingy.idThingy}.jpg"
+                )
                 vistaDeFoto.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
                 val archivos = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.list()
             }
@@ -119,25 +134,29 @@ class ThingyFragment : Fragment() {
             setOnClickListener {
                 val intentTakingPic = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 archivoFoto = creaArchivoFoto("${thingy.idThingy}.jpg")
-                val fileProvider = FileProvider.getUriForFile(context, "com.example.posesionista.fileprovider", archivoFoto)
+                val fileProvider = FileProvider.getUriForFile(
+                    context,
+                    "com.example.posesionista.fileprovider",
+                    archivoFoto
+                )
                 intentTakingPic.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
 
                 try {
                     startActivityForResult(intentTakingPic, 1)
-                } catch (error: ActivityNotFoundException){
-                   Log.d(TAG, "Device has no camera")
+                } catch (error: ActivityNotFoundException) {
+                    Log.d(TAG, "Device has no camera")
                 }
             }
         }
     }
 
-    private fun creaArchivoFoto(nombreArchivo: String): File{
+    private fun creaArchivoFoto(nombreArchivo: String): File {
         val rutaParaArchivo = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File(rutaParaArchivo, nombreArchivo)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
-        if (requestCode == 1 && resultCode == RESULT_OK){
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             val fotoBitmap = BitmapFactory.decodeFile(archivoFoto.absolutePath)
             vistaDeFoto.setImageBitmap(fotoBitmap)
         }
