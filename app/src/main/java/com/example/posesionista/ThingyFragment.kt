@@ -1,26 +1,30 @@
 package com.example.posesionista
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.cosa_fragment.*
 import java.io.File
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -44,6 +48,7 @@ class ThingyFragment : Fragment() {
         thingy = arguments?.getParcelable(ARGUMENTO_COSA)!!
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,16 +65,22 @@ class ThingyFragment : Fragment() {
         precioCampo.setText(thingy.valorEnPesos.toString())
         serieCampo.setText(thingy.numeroDeSerie)
         fechaCampo.isEnabled = false
+        fechaCampo.setText(thingy.date.toString())
 
+        /*val pattern = "dd/MM/yyyy"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val current = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ofPattern(pattern)
+            fechaCampo.text = thingy.date.toString()
+        } else {
+            val date = Date()
+            val formatter = SimpleDateFormat(pattern)
+            fechaCampo.text = formatter.format(date)
+        }*/
 
-        val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DAY_OF_YEAR, 0)
-        val pattern = "dd-MM-yyy"
-        val simpleDateFormat = SimpleDateFormat(pattern)
-        val date: String = simpleDateFormat.format(thingy.date)
-        fechaCampo.setText(calendar.time.toString())
         vistaDeFoto = vista.findViewById(R.id.cameraView)
         botonCamara = vista.findViewById(R.id.cameraButton)
+
         archivoFoto = File(
             context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
             "${thingy.idThingy}.jpg"
@@ -86,6 +97,7 @@ class ThingyFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, after: Int) {
             }
 
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.hashCode() == nombreCampo.text.hashCode()) {
                     thingy.nombre = s.toString()
@@ -114,9 +126,41 @@ class ThingyFragment : Fragment() {
                     Log.d("CosaFragment", "Cambiando numero de serie ${s.toString()}")
                     thingy.numeroDeSerie = s.toString()
                 }
-                if (s.hashCode() == serieCampo.text.hashCode()) {
-                    thingy.numeroDeSerie = s.toString()
+                if (s.hashCode() == fechaCampo.text.hashCode()) {
+                    Log.d(TAG, "fechaCampo: " + fechaCampo.text)
+                    try {
+                        val pattern = "dd/MM/yyyy"
+                        val formatter = DateTimeFormatter.ofPattern(pattern)
+                        val date = LocalDate.parse(fechaCampo.text, formatter)
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            val current = LocalDate.now()
+                            if (date.isAfter(current)) {
+                                val toast = Toast.makeText(
+                                    context,
+                                    "Date has to be before today's date",
+                                    Toast.LENGTH_LONG
+                                )
+                                toast.show()
+                            } else {
+                                Log.d("app", "Date is before today's date")
+                                thingy.date = java.sql.Date.valueOf(fechaCampo.text.toString())
+                                //fechaCampo.text = thingy.date.toString()
+                            }
+                        } else {
+                            Log.e("app", "Running on a different API")
+                        }
+                    } catch (e: Exception) {
+                        val toast = Toast.makeText(
+                            context,
+                            "Invalid date",
+                            Toast.LENGTH_SHORT
+                        )
+                        toast.show()
+                    }
+
                 }
+
                 archivoFoto = File(
                     context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                     "${thingy.idThingy}.jpg"
@@ -131,6 +175,7 @@ class ThingyFragment : Fragment() {
         nombreCampo.addTextChangedListener(observador)
         precioCampo.addTextChangedListener(observador)
         serieCampo.addTextChangedListener(observador)
+        fechaCampo.addTextChangedListener(observador)
 
         val actividad = activity as AppCompatActivity
         actividad.supportActionBar?.setTitle(R.string.detailsThingy)
@@ -155,10 +200,8 @@ class ThingyFragment : Fragment() {
         }
 
         editDateButton.apply {
-            Log.d(TAG, "IN apply")
             setOnClickListener {
                 fechaCampo.isEnabled = true
-                Log.d(TAG, "ebablinf")
             }
         }
     }
