@@ -107,14 +107,13 @@ class TablaCosasFragment : Fragment() {
             nombreTextView.text = thingy.nombre
             precioTextView.text = getString(R.string.money).plus(thingy.valorEnPesos)
             serieTextView.text = thingy.numeroDeSerie
-
             archivoFoto = File(
                 context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                 "${thingy.idThingy}.jpg"
             )
 
             if (!archivoFoto.exists()) {
-                imageView.setImageResource(R.drawable.martin_adams_mrk2vbjezly_unsplash)
+                imageView.setImageResource(R.drawable.no_image_icon)
             } else {
                 imageView.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
             }
@@ -204,6 +203,9 @@ class TablaCosasFragment : Fragment() {
                         ) { dialog, _ ->
                             dialog.run {
                                 tablaCosasViewModel.remove(viewHolder.adapterPosition)
+                                val rutaParaArchivo = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                                File(rutaParaArchivo, "${this}.jpg").delete()
+                                Log.d(TAG, rutaParaArchivo.toString())
                                 cosaRecyclerView.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
                                 Log.d(TAG, "Deleted")
                             }

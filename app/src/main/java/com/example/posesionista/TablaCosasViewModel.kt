@@ -1,6 +1,9 @@
 package com.example.posesionista
 
+import android.content.Context
+import android.os.Environment
 import androidx.lifecycle.ViewModel
+import java.io.File
 import kotlin.random.Random
 
 class TablaCosasViewModel : ViewModel() {
@@ -18,12 +21,12 @@ class TablaCosasViewModel : ViewModel() {
             cosaAlAzar.valorEnPesos = precio
             inventario += cosaAlAzar
         }
-        //inventario.sortedBy { it.valorEnPesos }
-        //val sorted =
     }
 
     fun remove(pos: Int){
         inventario.removeAt(pos)
+        //val rutaParaArchivo = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        //File(rutaParaArchivo, "${thingy.idThingy}.jpg").delete()
     }
 }
 

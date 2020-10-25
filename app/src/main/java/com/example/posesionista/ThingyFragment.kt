@@ -3,6 +3,7 @@ package com.example.posesionista
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
@@ -35,6 +36,7 @@ class ThingyFragment : Fragment() {
     private lateinit var serieCampo: EditText
     private lateinit var fechaCampo: TextView
     private lateinit var botonCamara: ImageButton
+    private lateinit var buttonDelete: ImageButton
     private lateinit var editDateButton: Button
     private lateinit var vistaDeFoto: ImageView
     private lateinit var archivoFoto: File
@@ -77,6 +79,7 @@ class ThingyFragment : Fragment() {
 
         vistaDeFoto = vista.findViewById(R.id.cameraView)
         botonCamara = vista.findViewById(R.id.cameraButton)
+        buttonDelete = vista.findViewById(R.id.deleteButton)
 
         archivoFoto = File(
             context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
@@ -84,7 +87,7 @@ class ThingyFragment : Fragment() {
         )
 
         if (!archivoFoto.exists()){
-            vistaDeFoto.setImageResource(R.drawable.martin_adams_mrk2vbjezly_unsplash)
+            vistaDeFoto.setImageResource(R.drawable.no_image_available)
         }
         else{
             vistaDeFoto.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
@@ -173,6 +176,7 @@ class ThingyFragment : Fragment() {
                 vistaDeFoto.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
                 val archivos = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.list()
                 Log.d(TAG, "ArchivosExistentes: $archivos")
+
                 //return vista
             }
 
@@ -206,6 +210,13 @@ class ThingyFragment : Fragment() {
             }
         }
 
+        buttonDelete.apply {
+            setOnClickListener {
+                archivoFoto =  deletePhoto("${thingy.idThingy}.jpg")
+                vistaDeFoto.setImageResource(R.drawable.no_image_available)
+            }
+        }
+
         editDateButton.apply {
             setOnClickListener {
                 fechaCampo.isEnabled = true
@@ -215,6 +226,12 @@ class ThingyFragment : Fragment() {
 
     private fun creaArchivoFoto(nombreArchivo: String): File {
         val rutaParaArchivo = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File(rutaParaArchivo, nombreArchivo)
+    }
+
+    fun deletePhoto(nombreArchivo: String): File{
+        val rutaParaArchivo = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        File(rutaParaArchivo, nombreArchivo).delete()
         return File(rutaParaArchivo, nombreArchivo)
     }
 

@@ -15,4 +15,6 @@
     <string name="photo_of_thingy">Photo of thingy</string>
     <string name="editButton">Edit Date</string>
     <string name="money">$ </string>
+    <string name="delete_photo">Delete photo</string>
+    <string name="take_a_photo">Take a photo</string>
 </resources>

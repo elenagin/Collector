@@ -88,27 +88,63 @@
         android:id="@+id/cameraView"
         android:layout_width="307dp"
         android:layout_height="201dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="124dp"
         android:contentDescription="@string/its_a_caterpillar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.634"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/campoFecha"
-        tools:src="@drawable/martin_adams_mrk2vbjezly_unsplash" />
+        tools:src="@drawable/no_image_available" />
 
     <ImageButton
         android:id="@+id/cameraButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorPrimary"
         android:contentDescription="@string/add_photo"
         android:src="@android:drawable/ic_menu_camera"
-        android:background="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/cameraView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintEnd_toEndOf="@+id/cameraLabel"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/cameraLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:text="@string/take_a_photo"
+        app:layout_constraintEnd_toStartOf="@+id/deleteLabel"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/campoFecha"
-        app:layout_constraintVertical_bias="0.413" />
+        tools:text="Take a photo" />
+
+    <TextView
+        android:id="@+id/deleteLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cameraLabel"
+        app:layout_constraintTop_toTopOf="@+id/cameraLabel"
+        tools:text="Take a photo" />
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/add_photo"
+        android:src="@android:drawable/ic_menu_delete"
+        app:layout_constraintBottom_toTopOf="@+id/cameraView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cameraButton" />
 
     <EditText
         android:id="@+id/campoFecha"
@@ -126,12 +162,13 @@
 
     <Button
         android:id="@+id/editButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="28dp"
         android:layout_marginStart="8dp"
+        android:background="@color/colorPrimary"
         android:text="@string/editButton"
         android:textColor="@color/white"
-        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/campoFecha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.061"
         app:layout_constraintStart_toEndOf="@+id/campoFecha"
