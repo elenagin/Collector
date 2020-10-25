@@ -9,7 +9,7 @@ class TablaCosasViewModel : ViewModel() {
     private val adjetivoAlAzar = arrayOf("Big", "Old", "Expensive")
 
     init {
-        for (i in 0 until 10) {
+        for (i in 0 until 20) {
             val cosaAlAzar = Thingy()
             val nombre = nombreAlAzar.random()
             val adjetivo = adjetivoAlAzar.random()
@@ -18,16 +18,13 @@ class TablaCosasViewModel : ViewModel() {
             cosaAlAzar.valorEnPesos = precio
             inventario += cosaAlAzar
         }
+        //inventario.sortedBy { it.valorEnPesos }
+        //val sorted =
     }
 
     fun remove(pos: Int){
         inventario.removeAt(pos)
     }
-
-    fun addThingy(thingy: Thingy){
-        inventario.add(thingy)
-    }
-
 }
 
 

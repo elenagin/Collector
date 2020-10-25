@@ -1,23 +1,25 @@
 package com.example.posesionista
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
+import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.Color.green
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.cosa_layout.*
+import java.io.File
 import java.util.*
 
 private const val TAG = "TablaCosasFragment"
@@ -50,6 +52,7 @@ class TablaCosasFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         Log.d(TAG, "Total de posesiones: ${tablaCosasViewModel.inventario.size}")
+        //tablaCosasViewModel.
     }
 
     companion object {
@@ -71,19 +74,8 @@ class TablaCosasFragment : Fragment() {
         return vista
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        //inflater.inflate(R.menu.menu_fragment, menu)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            /*R.id.menuAddBtton -> {
-                val thingy= Thingy()
-                tablaCosasViewModel.addThingy(thingy)
-                callbacks?.onCosaSeleccionada(thingy)
-                return true
-            }*/
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -100,6 +92,9 @@ class TablaCosasFragment : Fragment() {
         val precioTextView: TextView = itemView.findViewById(R.id.label_price)
         val serieTextView: TextView = itemView.findViewById(R.id.label_series)
         val cardView: CardView = itemView.findViewById(R.id.card)
+        val imageView: ImageView = itemView.findViewById(R.id.thumbnail)
+        private lateinit var archivoFoto: File
+
 
         private lateinit var thingy: Thingy
 
@@ -110,31 +105,55 @@ class TablaCosasFragment : Fragment() {
         fun bind(thingy: Thingy) {
             this.thingy = thingy
             nombreTextView.text = thingy.nombre
-            precioTextView.text = "$ " + thingy.valorEnPesos.toString()
+            precioTextView.text = getString(R.string.money).plus(thingy.valorEnPesos)
             serieTextView.text = thingy.numeroDeSerie
-            if (thingy.valorEnPesos in 0..99) {
-                cardView.setCardBackgroundColor(Color.parseColor("#EDC7BF"))
-            } else if (thingy.valorEnPesos in 100..199) {
-                cardView.setCardBackgroundColor(Color.parseColor("#E9B9AF"))
-            } else if (thingy.valorEnPesos in 200..299) {
-                cardView.setCardBackgroundColor(Color.parseColor("#E5AB9F"))
-            } else if (thingy.valorEnPesos in 300..399) {
-                cardView.setCardBackgroundColor(Color.parseColor("#E09C8F"))
-            } else if (thingy.valorEnPesos in 400..499) {
-                cardView.setCardBackgroundColor(Color.parseColor("#DC8E7F"))
-            } else if (thingy.valorEnPesos in 500..599) {
-                cardView.setCardBackgroundColor(Color.parseColor("#D8806F"))
-            } else if (thingy.valorEnPesos in 600..699) {
-                cardView.setCardBackgroundColor(Color.parseColor("#D3725F"))
-            } else if (thingy.valorEnPesos in 700..799) {
-                cardView.setCardBackgroundColor(Color.parseColor("#CF644F"))
-            } else if (thingy.valorEnPesos in 800..899) {
-                cardView.setCardBackgroundColor(Color.parseColor("#CA563F"))
-            } else if (thingy.valorEnPesos in 900..1000) {
-                cardView.setCardBackgroundColor(Color.parseColor("#C04C35"))
+
+            archivoFoto = File(
+                context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                "${thingy.idThingy}.jpg"
+            )
+
+            if (!archivoFoto.exists()) {
+                imageView.setImageResource(R.drawable.martin_adams_mrk2vbjezly_unsplash)
+            } else {
+                imageView.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
             }
 
-
+            when (thingy.valorEnPesos) {
+                in 0..99 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#EDC7BF"))
+                }
+                in 100..199 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#E9B9AF"))
+                }
+                in 200..299 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#E5AB9F"))
+                }
+                in 300..399 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#E09C8F"))
+                }
+                in 400..499 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#DC8E7F"))
+                }
+                in 500..599 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#D8806F"))
+                }
+                in 600..699 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#D3725F"))
+                }
+                in 700..799 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#CF644F"))
+                }
+                in 800..899 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#CA563F"))
+                }
+                in 900..1000 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#C04C35"))
+                }
+                in 1000..10000 -> {
+                    cardView.setCardBackgroundColor(Color.parseColor("#A83923"))
+                }
+            }
         }
 
         override fun onClick(view: View?) {
@@ -160,8 +179,12 @@ class TablaCosasFragment : Fragment() {
     }
 
     private fun configuraItemTouchHelper() {
-        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
                 val sourcePosition = viewHolder.adapterPosition
@@ -178,7 +201,7 @@ class TablaCosasFragment : Fragment() {
                         .setCancelable(false)
                         .setPositiveButton(
                             "Proceed"
-                        ) { dialog, id ->
+                        ) { dialog, _ ->
                             dialog.run {
                                 tablaCosasViewModel.remove(viewHolder.adapterPosition)
                                 cosaRecyclerView.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
@@ -187,7 +210,7 @@ class TablaCosasFragment : Fragment() {
                         }
                         .setNegativeButton(
                             "Cancel"
-                        ) { dialog, id ->
+                        ) { dialog, _ ->
                             dialog.run {
                                 cosaRecyclerView.adapter?.notifyItemChanged(viewHolder.adapterPosition)
                                 Log.d(TAG, "Cancelled")
@@ -199,9 +222,7 @@ class TablaCosasFragment : Fragment() {
                     alert.show()
                 }
             }
-
         }
-
         val gestureDetector = ItemTouchHelper(itemTouchCallback)
         gestureDetector.attachToRecyclerView(cosaRecyclerView)
     }

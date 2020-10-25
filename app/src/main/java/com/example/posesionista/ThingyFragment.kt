@@ -21,11 +21,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import java.io.File
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 private const val ARGUMENTO_COSA = "cosa_recibida"
@@ -65,7 +62,7 @@ class ThingyFragment : Fragment() {
         precioCampo.setText(thingy.valorEnPesos.toString())
         serieCampo.setText(thingy.numeroDeSerie)
         fechaCampo.isEnabled = false
-        fechaCampo.setText(thingy.date.toString())
+        fechaCampo.text = thingy.date.toString()
 
         /*val pattern = "dd/MM/yyyy"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -85,7 +82,14 @@ class ThingyFragment : Fragment() {
             context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
             "${thingy.idThingy}.jpg"
         )
-        vistaDeFoto.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
+
+        if (!archivoFoto.exists()){
+            vistaDeFoto.setImageResource(R.drawable.martin_adams_mrk2vbjezly_unsplash)
+        }
+        else{
+            vistaDeFoto.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
+        }
+
         val archivos = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.list()
         Log.d(TAG, "ArchivosExistentes: $archivos")
         return vista
@@ -165,8 +169,11 @@ class ThingyFragment : Fragment() {
                     context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                     "${thingy.idThingy}.jpg"
                 )
+
                 vistaDeFoto.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
                 val archivos = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.list()
+                Log.d(TAG, "ArchivosExistentes: $archivos")
+                //return vista
             }
 
             override fun afterTextChanged(s: Editable?) {

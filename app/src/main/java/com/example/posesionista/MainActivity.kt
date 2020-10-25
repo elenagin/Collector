@@ -7,7 +7,7 @@ import android.util.Log
 private const val TAG = "MainActivity"
 
 
-//THIS CODE IS THE ONE FOR PRACTICA 2
+//THIS CODE IS THE ONE FOR PRACTICA 3
 class MainActivity : AppCompatActivity(), TablaCosasFragment.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
