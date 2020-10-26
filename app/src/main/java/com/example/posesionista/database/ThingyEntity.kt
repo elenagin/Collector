@@ -1,4 +1,4 @@
-package com.example.posesionista
+package com.example.posesionista.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

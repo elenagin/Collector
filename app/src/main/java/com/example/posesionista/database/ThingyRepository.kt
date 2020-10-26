@@ -1,6 +1,7 @@
-package com.example.posesionista
+package com.example.posesionista.database
 
 import androidx.lifecycle.LiveData
+import com.example.posesionista.Thingy
 
 /**
  * Repository for Room database. Interacts with Room database on behalf of the ViewModel
@@ -14,7 +15,7 @@ class ThingyRepository(private val thingyDao: ThingyDAO) {
         thingyDao.insert(thingy)
     }
 
-    fun deleteAll(thingy: Thingy) {
+    fun deleteAll() {
         thingyDao.deleteAll()
     }
 }

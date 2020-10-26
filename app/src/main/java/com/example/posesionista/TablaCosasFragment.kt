@@ -124,7 +124,7 @@ class TablaCosasFragment : Fragment() {
         }
 
         /**
-         * Joins view holder to data in view model
+         * Joins view holder to data in view model, it can modify the view based on variables from model
          */
         fun bind(thingy: Thingy) {
             this.thingy = thingy
@@ -143,39 +143,17 @@ class TablaCosasFragment : Fragment() {
             }
 
             when (thingy.valorEnPesos) {
-                in 0..99 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#EDC7BF"))
-                }
-                in 100..199 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#E9B9AF"))
-                }
-                in 200..299 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#E5AB9F"))
-                }
-                in 300..399 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#E09C8F"))
-                }
-                in 400..499 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#DC8E7F"))
-                }
-                in 500..599 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#D8806F"))
-                }
-                in 600..699 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#D3725F"))
-                }
-                in 700..799 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#CF644F"))
-                }
-                in 800..899 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#CA563F"))
-                }
-                in 900..1000 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#C04C35"))
-                }
-                in 1000..10000 -> {
-                    cardView.setCardBackgroundColor(Color.parseColor("#A83923"))
-                }
+                in 0..99 -> cardView.setCardBackgroundColor(Color.parseColor("#EDC7BF"))
+                in 100..199 -> cardView.setCardBackgroundColor(Color.parseColor("#E9B9AF"))
+                in 200..299 -> cardView.setCardBackgroundColor(Color.parseColor("#E5AB9F"))
+                in 300..399 -> cardView.setCardBackgroundColor(Color.parseColor("#E09C8F"))
+                in 400..499 -> cardView.setCardBackgroundColor(Color.parseColor("#DC8E7F"))
+                in 500..599 -> cardView.setCardBackgroundColor(Color.parseColor("#D8806F"))
+                in 600..699 -> cardView.setCardBackgroundColor(Color.parseColor("#D3725F"))
+                in 700..799 -> cardView.setCardBackgroundColor(Color.parseColor("#CF644F"))
+                in 800..899 -> cardView.setCardBackgroundColor(Color.parseColor("#CA563F"))
+                in 900..1000 -> cardView.setCardBackgroundColor(Color.parseColor("#C04C35"))
+                in 1000..10000 -> cardView.setCardBackgroundColor(Color.parseColor("#A83923"))
             }
         }
 
@@ -257,7 +235,8 @@ class TablaCosasFragment : Fragment() {
                         ) { dialog, _ ->
                             dialog.run {
                                 tablaCosasViewModel.remove(viewHolder.adapterPosition)
-                                val rutaParaArchivo = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                                val rutaParaArchivo =
+                                    context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
                                 File(rutaParaArchivo, "${this}.jpg").delete()
                                 Log.d(TAG, rutaParaArchivo.toString())
                                 cosaRecyclerView.adapter?.notifyItemRemoved(viewHolder.adapterPosition)

@@ -1,9 +1,10 @@
-package com.example.posesionista
+package com.example.posesionista.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.posesionista.Thingy
 
 /**
  * Room database (from Thingy DAO and Thingy Entity)
@@ -18,7 +19,8 @@ abstract class ThingyDatabase : RoomDatabase() {
         private var INSTANCE: ThingyDatabase? = null
 
         fun getDatabase(context: Context): ThingyDatabase {
-            val tempInstance = INSTANCE
+            val tempInstance =
+                INSTANCE
             if (tempInstance != null) {
                 return tempInstance
             }

@@ -13,8 +13,9 @@ private const val TAG = "MainActivity"
  */
 class MainActivity : AppCompatActivity(), TablaCosasFragment.Callback {
 
-    //var doubleBackToExitOnce: Boolean = false
-
+    /**
+     * Overrides onCreate, checking savedInstanceState first for fragments
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
@@ -42,11 +43,9 @@ class MainActivity : AppCompatActivity(), TablaCosasFragment.Callback {
         }
     }
 
-    /*override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        Log.d(TAG, "Saving here yey")
-        super.onSaveInstanceState(outState, outPersistentState)
-    }*/
-
+    /*
+     * Overrides onSaveInstanceState, allowing to save in background
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("message", "This is my message to be reloaded")
         //outState.putParcelable()
