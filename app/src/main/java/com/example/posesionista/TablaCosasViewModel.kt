@@ -3,6 +3,9 @@ package com.example.posesionista
 import androidx.lifecycle.ViewModel
 import kotlin.random.Random
 
+/**
+ * Creates random items for view model
+ */
 class TablaCosasViewModel : ViewModel() {
     val inventario = mutableListOf<Thingy>()
     private val nombreAlAzar = arrayOf("Map", "Library", "Shelf")
@@ -20,6 +23,9 @@ class TablaCosasViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Removes items from view model
+     */
     fun remove(pos: Int){
         inventario.removeAt(pos)
         //val rutaParaArchivo = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)

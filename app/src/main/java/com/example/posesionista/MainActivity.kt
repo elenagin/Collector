@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 
 private const val TAG = "MainActivity"
 
-//THIS CODE IS THE ONE FOR PRACTICA 3
+/**
+ * Main Activity
+ */
 class MainActivity : AppCompatActivity(), TablaCosasFragment.Callback {
 
     //var doubleBackToExitOnce: Boolean = false

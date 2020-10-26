@@ -103,6 +103,9 @@ class ThingyFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, after: Int) {
             }
 
+            /**
+             * Reacts when text of view is changed
+             */
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.hashCode() == nombreCampo.text.hashCode()) {
@@ -167,11 +170,16 @@ class ThingyFragment : Fragment() {
 
                 }
 
+                /**
+                 * Creates files for camera
+                 */
                 archivoFoto = File(
                     context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                     "${thingy.idThingy}.jpg"
                 )
-
+                /**
+                 * Gets existing files from main file directory
+                 */
                 vistaDeFoto.setImageBitmap(BitmapFactory.decodeFile(archivoFoto.absolutePath))
                 val archivos = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.list()
                 Log.d(TAG, "ArchivosExistentes: $archivos")
@@ -182,6 +190,9 @@ class ThingyFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         }
+        /**
+         * Sets listeners for actions from user
+         */
         nombreCampo.addTextChangedListener(observador)
         precioCampo.addTextChangedListener(observador)
         serieCampo.addTextChangedListener(observador)
@@ -190,6 +201,9 @@ class ThingyFragment : Fragment() {
         val actividad = activity as AppCompatActivity
         actividad.supportActionBar?.setTitle(R.string.detailsThingy)
 
+        /**
+         * Camera button actions
+         */
         botonCamara.apply {
             setOnClickListener {
                 val intentTakingPic = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -209,6 +223,9 @@ class ThingyFragment : Fragment() {
             }
         }
 
+        /**
+         * Delete photo button actions
+         */
         buttonDelete.apply {
             setOnClickListener {
                 archivoFoto =  deletePhoto("${thingy.idThingy}.jpg")
@@ -216,6 +233,9 @@ class ThingyFragment : Fragment() {
             }
         }
 
+        /**
+         * Edit date button actions
+         */
         editDateButton.apply {
             setOnClickListener {
                 fechaCampo.isEnabled = true
@@ -223,17 +243,26 @@ class ThingyFragment : Fragment() {
         }
     }
 
+    /**
+     * Creates route and file for photo
+     */
     private fun creaArchivoFoto(nombreArchivo: String): File {
         val rutaParaArchivo = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File(rutaParaArchivo, nombreArchivo)
     }
 
+    /**
+     * Deletes image file from directory
+     */
     private fun deletePhoto(nombreArchivo: String): File{
         val rutaParaArchivo = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         File(rutaParaArchivo, nombreArchivo).delete()
         return File(rutaParaArchivo, nombreArchivo)
     }
 
+    /**
+     * Sends photo file to the view
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             val fotoBitmap = BitmapFactory.decodeFile(archivoFoto.absolutePath)

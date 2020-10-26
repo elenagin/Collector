@@ -34,6 +34,9 @@ class TablaCosasFragment : Fragment() {
     private lateinit var cosaRecyclerView: RecyclerView
     private var adapter: CosaAdapter? = null
 
+    /**
+     * Sets view model
+     */
     private val tablaCosasViewModel: TablaCosasViewModel by lazy {
         ViewModelProvider(this).get(TablaCosasViewModel::class.java)
     }
@@ -48,6 +51,9 @@ class TablaCosasFragment : Fragment() {
         callbacks = null
     }
 
+    /**
+     * Creates Fragment based on savedInstance for view model
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -55,12 +61,18 @@ class TablaCosasFragment : Fragment() {
         //tablaCosasViewModel.
     }
 
+    /**
+     * Creates new fragment instance for object in list
+     */
     companion object {
         fun newInstance(): TablaCosasFragment {
             return TablaCosasFragment()
         }
     }
 
+    /**
+     * Creates new fragment view for object in list
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -80,12 +92,18 @@ class TablaCosasFragment : Fragment() {
         }
     }
 
+    /**
+     * Updates List for User Interface
+     */
     private fun actualizaUI() {
         val inventario = tablaCosasViewModel.inventario
         adapter = CosaAdapter(inventario)
         cosaRecyclerView.adapter = adapter
     }
 
+    /**
+     * Updates for Thingy Holder
+     */
     private inner class CosaHolder(view: View) : RecyclerView.ViewHolder(view),
         View.OnClickListener {
         val nombreTextView: TextView = itemView.findViewById(R.id.label_name)
@@ -98,10 +116,16 @@ class TablaCosasFragment : Fragment() {
 
         private lateinit var thingy: Thingy
 
+        /**
+         * onClick callbacks passing Thingy as a parameter
+         */
         init {
             view.setOnClickListener(this)
         }
 
+        /**
+         * Joins view holder to data in view model
+         */
         fun bind(thingy: Thingy) {
             this.thingy = thingy
             nombreTextView.text = thingy.nombre
@@ -155,21 +179,39 @@ class TablaCosasFragment : Fragment() {
             }
         }
 
+        /**
+         * onClick callbacks passing Thingy as a parameter
+         */
         override fun onClick(view: View?) {
             callbacks?.onCosaSeleccionada(thingy) //algo opcional
             Log.d("IN ON CLICK", "IN ON CLICK")
         }
     }
 
+    /**
+     * Adapter for RecyclerView. Adapter managers the view holder and joins the view holders to their data
+     */
     private inner class CosaAdapter(var inventario: List<Thingy>) :
         RecyclerView.Adapter<CosaHolder>() {
+
+        /**
+         * Creates view for view holders
+         * our view model.
+         */
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CosaHolder {
             val vista = layoutInflater.inflate(R.layout.cosa_layout, parent, false)
             return CosaHolder(vista)
         }
 
+        /**
+         * Default implementation adapter getItemCount will return the total number of items in
+         * our view model.
+         */
         override fun getItemCount() = inventario.size
 
+        /**
+         * Joins views for view holders to our view model.
+         */
         override fun onBindViewHolder(holder: CosaHolder, position: Int) {
             val thingy = inventario[position]
             holder.bind(thingy) //le paso thingy
@@ -177,11 +219,19 @@ class TablaCosasFragment : Fragment() {
 
     }
 
+    /**
+     * Receives all touch & gesture actions from user and responds.
+     */
     private fun configuraItemTouchHelper() {
         val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT
         ) {
+
+            /**
+             * When users rearranges (moves), will override onMove and rearrange items from
+             * view as well as notify the view model.
+             */
             override fun onMove(
                 recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
@@ -193,6 +243,10 @@ class TablaCosasFragment : Fragment() {
                 return true
             }
 
+            /**
+             * When users swipes, will override onSwiped and remove item from view as well as
+             * update the view model.
+             */
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (direction == ItemTouchHelper.LEFT) {
                     val dialogBuilder = AlertDialog.Builder(context)
@@ -225,6 +279,10 @@ class TablaCosasFragment : Fragment() {
                 }
             }
         }
+
+        /**
+         * Detected gesture acts on Recycler View
+         */
         val gestureDetector = ItemTouchHelper(itemTouchCallback)
         gestureDetector.attachToRecyclerView(cosaRecyclerView)
     }

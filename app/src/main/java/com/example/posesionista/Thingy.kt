@@ -6,6 +6,9 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+/**
+ * Thingy object structure, type Parcelable
+ */
 @Parcelize
 data class Thingy constructor(
     var nombre: String = "",

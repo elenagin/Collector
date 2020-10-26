@@ -17,4 +17,5 @@
     <string name="money">$ </string>
     <string name="delete_photo">Delete photo</string>
     <string name="take_a_photo">Take a photo</string>
+    <string name="section_header">Header</string>
 </resources>
