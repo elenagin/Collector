@@ -1,7 +1,6 @@
 package com.example.posesionista
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -42,13 +41,13 @@ class MainActivity : AppCompatActivity(), TablaCosasFragment.Callback {
     }
 
     /*override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        Log.d(TAG, "SAving here yey")
+        Log.d(TAG, "Saving here yey")
         super.onSaveInstanceState(outState, outPersistentState)
     }*/
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("message", "This is my message to be reloaded")
-        outState.putParcelable()
+        //outState.putParcelable()
         super.onSaveInstanceState(outState)
     }
 

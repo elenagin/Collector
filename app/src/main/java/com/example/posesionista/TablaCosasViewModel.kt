@@ -1,9 +1,6 @@
 package com.example.posesionista
 
-import android.content.Context
-import android.os.Environment
 import androidx.lifecycle.ViewModel
-import java.io.File
 import kotlin.random.Random
 
 class TablaCosasViewModel : ViewModel() {

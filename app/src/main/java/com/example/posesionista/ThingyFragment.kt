@@ -3,7 +3,6 @@ package com.example.posesionista
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
@@ -229,7 +228,7 @@ class ThingyFragment : Fragment() {
         return File(rutaParaArchivo, nombreArchivo)
     }
 
-    fun deletePhoto(nombreArchivo: String): File{
+    private fun deletePhoto(nombreArchivo: String): File{
         val rutaParaArchivo = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         File(rutaParaArchivo, nombreArchivo).delete()
         return File(rutaParaArchivo, nombreArchivo)
